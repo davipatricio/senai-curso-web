@@ -11,7 +11,7 @@ export default function ProductSection({
   products,
 }: ProductSectionProps) {
   return (
-    <section className="flex flex-col gap-4 rounded-xl p-4 bg-zinc-800 w-full overflow-x-auto">
+    <section className="flex flex-col gap-4 rounded-xl p-4 bg-neutral-950 w-full overflow-x-auto">
       <h1 className="font-bold text-2xl">{title}</h1>
 
       <div className="flex gap-2">
