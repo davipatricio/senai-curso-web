@@ -1,6 +1,6 @@
 import Header from "./components/header";
 import ProductSection from "./components/home/product-section";
-import { mostSelledProducts } from "./utils/products";
+import { mostSelledProducts, promoProducts } from "./utils/products";
 
 export default function App() {
   return (
@@ -11,7 +11,8 @@ export default function App() {
           a
         </aside>
 
-        <div className="flex w-full p-2 sm:p-4 md:p-10 h-fit">
+        <div className="flex flex-col gap-2 w-full p-2 sm:p-4 md:p-10 h-fit">
+          <ProductSection title="Em promoção" products={promoProducts} />
           <ProductSection title="Mais vendidos" products={mostSelledProducts} />
         </div>
       </main>
