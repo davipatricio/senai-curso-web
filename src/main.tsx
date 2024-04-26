@@ -1,28 +1,10 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
 import "./index.css";
-import Navbar from "./components/navbar.tsx";
-import Header from "./components/header.tsx";
-import IndexPage from "./pages/index.tsx";
+import { createRoot } from "react-dom/client";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import IndexPage from "./pages";
+import CadastroProdutosPage from "./pages/cadastro-produtos";
+import { Layout } from "./features/layout.tsx";
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <>
-      <Header />
-      <main className="flex w-full min-h-[calc(100vh-80px)]">
-        <Navbar />
-
-        <div className="flex flex-col gap-2 max-w-[1440px] w-full p-2 sm:p-4 md:p-10 h-fit">
-          {children}
-        </div>
-      </main>
-    </>
-  );
-};
 const router = createBrowserRouter([
   {
     path: "/",
@@ -32,8 +14,16 @@ const router = createBrowserRouter([
       </Layout>
     ),
   },
+  {
+    path: "/cadastro-produtos",
+    element: (
+      <Layout>
+        <CadastroProdutosPage />
+      </Layout>
+    ),
+  },
 ]);
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
+createRoot(document.getElementById("root")!).render(
   <RouterProvider router={router} />
 );
