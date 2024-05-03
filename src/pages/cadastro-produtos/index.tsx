@@ -1,5 +1,7 @@
 import { FormEvent, ChangeEvent, useState } from "react";
 
+type SupportedPaymentMethods = keyof typeof PaymentMethods;
+
 interface RegisterProductState {
   name: string;
   description: string;
@@ -8,8 +10,14 @@ interface RegisterProductState {
   price: number;
   frete: number;
   quantity: number;
-  paymentMethods: ("pix" | "card" | "boleto")[];
+  paymentMethods: SupportedPaymentMethods[];
 }
+
+const PaymentMethods = {
+  pix: "Pix",
+  card: "Cartão de Crédito",
+  boleto: "Boleto",
+};
 
 export default function CadastroProdutos() {
   const [data, setData] = useState<RegisterProductState>({
@@ -41,19 +49,18 @@ export default function CadastroProdutos() {
     });
   };
 
-  const handlePaymentMethod =
-    (method: RegisterProductState["paymentMethods"][0]) => () => {
-      if (data.paymentMethods.includes(method))
-        setData({
-          ...data,
-          paymentMethods: data.paymentMethods.filter((t) => t !== method),
-        });
-      else
-        setData({
-          ...data,
-          paymentMethods: [...data.paymentMethods, method],
-        });
-    };
+  const handlePaymentMethod = (method: SupportedPaymentMethods) => () => {
+    if (data.paymentMethods.includes(method))
+      setData({
+        ...data,
+        paymentMethods: data.paymentMethods.filter((t) => t !== method),
+      });
+    else
+      setData({
+        ...data,
+        paymentMethods: [...data.paymentMethods, method],
+      });
+  };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -161,36 +168,21 @@ export default function CadastroProdutos() {
 
         <div className="flex flex-col gap-2">
           <p className="font-bold text-lg">Metódos de Pagamento</p>
+
           <div className="flex gap-2">
-            <label className="flex items-center gap-2">
-              <input
-                className="p-2 size-4 rounded-lg border border-neutral-700"
-                type="checkbox"
-                checked={data.paymentMethods.includes("pix")}
-                onChange={handlePaymentMethod("pix")}
-              />
-              <p>Pix</p>
-            </label>
-
-            <label className="flex items-center gap-2">
-              <input
-                className="p-2 size-4 rounded-lg border border-neutral-700"
-                type="checkbox"
-                checked={data.paymentMethods.includes("card")}
-                onChange={handlePaymentMethod("card")}
-              />
-              <p>Cartão de Crédito</p>
-            </label>
-
-            <label className="flex items-center gap-2">
-              <input
-                className="p-2 size-4 rounded-lg border border-neutral-700"
-                type="checkbox"
-                checked={data.paymentMethods.includes("boleto")}
-                onChange={handlePaymentMethod("boleto")}
-              />
-              <p>Boleto</p>
-            </label>
+            {(Object.keys(PaymentMethods) as SupportedPaymentMethods[]).map(
+              (name) => (
+                <label className="flex items-center gap-2">
+                  <input
+                    className="p-2 size-4 rounded-lg border border-neutral-700"
+                    type="checkbox"
+                    checked={data.paymentMethods.includes(name)}
+                    onChange={handlePaymentMethod(name)}
+                  />
+                  <p>{PaymentMethods[name]}</p>
+                </label>
+              )
+            )}
           </div>
         </div>
 
