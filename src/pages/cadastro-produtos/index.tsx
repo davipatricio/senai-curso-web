@@ -199,7 +199,7 @@ export default function CadastroProdutos() {
             type="submit"
             className="bg-emerald-700 hover:bg-emerald-800 focus:bg-emerald-800 p-2 px-4 rounded-xl font-bold"
           >
-            Enviar produto
+            Publicar produto
           </button>
         </div>
       </div>
