@@ -1,29 +1,31 @@
+import { Link } from "react-router-dom";
+
 export default function Navbar() {
   return (
     <aside className="hidden sm:flex flex-col min-h-full max-w-[260px] w-full p-4 bg-neutral-950 border-r border-neutral-700">
       <h1 className="font-bold text-lg">Departamentos</h1>
       <div className="flex flex-col ml-2">
-        <a className="hover:underline" href="#">
+        <Link className="hover:underline" to="#">
           Celulares
-        </a>
-        <a className="hover:underline" href="#">
+        </Link>
+        <Link className="hover:underline" to="#">
           Computadores
-        </a>
-        <a className="hover:underline" href="#">
+        </Link>
+        <Link className="hover:underline" to="#">
           Teclados
-        </a>
-        <a className="hover:underline" href="#">
+        </Link>
+        <Link className="hover:underline" to="#">
           Mouses
-        </a>
+        </Link>
       </div>
       <h1 className="font-bold text-lg mt-4">Lawg Store</h1>
       <div className="flex flex-col ml-2">
-        <a className="hover:underline" href="#">
+        <Link className="hover:underline" to="#">
           Sobre nós
-        </a>
-        <a className="hover:underline" href="#">
+        </Link>
+        <Link className="hover:underline" to="#">
           Política de Privacidade
-        </a>
+        </Link>
       </div>
     </aside>
   );

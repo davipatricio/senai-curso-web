@@ -162,7 +162,6 @@ export default function CadastroProdutos() {
             checked={data.garantia}
             name={"garantia"}
             onChange={handleCheckbox}
-            required
           />
         </label>
 
