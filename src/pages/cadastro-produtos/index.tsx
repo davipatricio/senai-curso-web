@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { FormEvent, ChangeEvent, useState } from "react";
 
 interface RegisterProductState {
   name: string;
@@ -55,8 +55,12 @@ export default function CadastroProdutos() {
         });
     };
 
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  };
+
   return (
-    <div>
+    <form onSubmit={handleSubmit}>
       <h1 className="font-bold text-2xl">Cadastro de Produtos</h1>
 
       <div className="flex flex-col gap-4 my-10 max-w-[620px] w-full">
@@ -179,7 +183,18 @@ export default function CadastroProdutos() {
             </label>
           </div>
         </div>
+
+        <div>
+          <button
+            onClick={() => {
+              alert("Ainda não fiz :(");
+            }}
+            className="bg-emerald-700 hover:bg-emerald-800 focus:bg-emerald-800 p-2 px-4 rounded-xl font-bold"
+          >
+            Enviar produto
+          </button>
+        </div>
       </div>
-    </div>
+    </form>
   );
 }
