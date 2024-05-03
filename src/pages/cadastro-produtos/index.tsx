@@ -24,7 +24,7 @@ export default function CadastroProdutos() {
   });
 
   const handleTextChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
     setData({
@@ -42,8 +42,7 @@ export default function CadastroProdutos() {
   };
 
   const handlePaymentMethod =
-    (method: RegisterProductState["paymentMethods"][0]) =>
-    (e: ChangeEvent<HTMLInputElement>) => {
+    (method: RegisterProductState["paymentMethods"][0]) => () => {
       if (data.paymentMethods.includes(method))
         setData({
           ...data,
