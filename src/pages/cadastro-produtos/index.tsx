@@ -24,7 +24,7 @@ export default function CadastroProdutos() {
   });
 
   const handleTextChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     setData({
@@ -57,6 +57,7 @@ export default function CadastroProdutos() {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    alert("Ainda não fiz.");
   };
 
   return (
@@ -67,35 +68,44 @@ export default function CadastroProdutos() {
         <label className="flex flex-col gap-2">
           <p className="font-bold text-lg">Nome do Produto</p>
           <input
-            className="p-2 rounded-lg border border-neutral-700"
+            className="peer p-2 rounded-lg border border-neutral-700"
             type="text"
             placeholder="iPhone 15 Pro Apple 128GB, Câmera Tripla 48MP"
             name={"name"}
             value={data.name}
             onChange={handleTextChange}
             required
+            minLength={4}
+            maxLength={60}
           />
+          <p className="hidden text-red-500 font-bold peer-[:not(:placeholder-shown):invalid]:flex">
+            Insira um nome válido.
+          </p>
         </label>
         <label className="flex flex-col gap-2">
           <p className="font-bold text-lg">Descrição do Produto</p>
           <textarea
-            className="p-2 rounded-lg border border-neutral-700 min-h-[210px] max-h-[360px]"
+            className="peer p-2 rounded-lg border border-neutral-700 min-h-[210px] max-h-[360px]"
             placeholder="O iPhone 15 Pro tem design robusto e leve em titânio aeroespacial. Na parte de trás, vidro..."
             name={"descriptionasd"}
             value={data.description}
             onChange={handleTextChange}
             required
+            minLength={10}
           />
+          <p className="hidden text-red-500 font-bold peer-[:not(:placeholder-shown):invalid]:flex">
+            Insira uma descrição válida com no mínimo 10 caracteres.
+          </p>
         </label>
         <label className="flex flex-col gap-2">
           <p className="font-bold text-lg">Preço</p>
           <div className="flex gap-2 items-center">
             <span className="text-md font-bold text-zinc-200">R$</span>
             <input
-              className="p-2 rounded-lg w-full border border-neutral-700"
+              className="peer p-2 rounded-lg w-full border border-neutral-700"
               type="number"
               placeholder="7.899,32"
-              min={0}
+              min={1}
               max={10000}
               name={"price"}
               value={data.price === 0 ? "" : data.price}
@@ -186,9 +196,7 @@ export default function CadastroProdutos() {
 
         <div>
           <button
-            onClick={() => {
-              alert("Ainda não fiz :(");
-            }}
+            type="submit"
             className="bg-emerald-700 hover:bg-emerald-800 focus:bg-emerald-800 p-2 px-4 rounded-xl font-bold"
           >
             Enviar produto
