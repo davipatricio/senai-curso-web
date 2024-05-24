@@ -1,198 +1,77 @@
-import { FormEvent, ChangeEvent, useState } from "react";
-
-type SupportedPaymentMethods = keyof typeof PaymentMethods;
-
-interface RegisterProductState {
-  name: string;
-  description: string;
-  base64: string;
-  garantia: boolean;
-  price: number;
-  frete: number;
-  quantity: number;
-  paymentMethods: SupportedPaymentMethods[];
-}
-
-const PaymentMethods = {
-  pix: "Pix",
-  card: "Cartão de Crédito",
-  boleto: "Boleto",
-};
+import { FormEvent, useState } from "react";
+import CreateProductForm, { RegisterProductState } from "./Form";
+import { numberToPrice } from "../../utils/lib";
 
 export default function CadastroProdutos() {
-  const [data, setData] = useState<RegisterProductState>({
-    name: "",
-    description: "",
-    base64: "",
-    garantia: false,
-    price: 0,
-    quantity: 0,
-    frete: 0,
-    paymentMethods: ["pix"],
-  });
-
-  const handleTextChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setData({
-      ...data,
-      [name]: value,
-    });
-  };
-
-  const handleCheckbox = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, checked } = e.target;
-    setData({
-      ...data,
-      [name]: checked,
-    });
-  };
-
-  const handlePaymentMethod = (method: SupportedPaymentMethods) => () => {
-    if (data.paymentMethods.includes(method))
-      setData({
-        ...data,
-        paymentMethods: data.paymentMethods.filter((t) => t !== method),
-      });
-    else
-      setData({
-        ...data,
-        paymentMethods: [...data.paymentMethods, method],
-      });
-  };
+  const [createdProducts, setCreatedProducts] = useState<
+    RegisterProductState[]
+  >([]);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     alert("Ainda não fiz.");
   };
 
+  const onAdd = (data: RegisterProductState) => {
+    setCreatedProducts((old) => [...old, data]);
+  };
+
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="group" onSubmit={handleSubmit}>
       <h1 className="font-bold text-2xl">Cadastro de Produtos</h1>
 
       <div className="flex flex-col gap-4 my-10 max-w-[620px] w-full">
-        <label className="flex flex-col gap-2">
-          <p className="font-bold text-lg">Nome do Produto</p>
-          <input
-            className="peer p-2 rounded-lg border border-neutral-700"
-            type="text"
-            placeholder="iPhone 15 Pro Apple 128GB, Câmera Tripla 48MP"
-            name={"name"}
-            value={data.name}
-            onChange={handleTextChange}
-            required
-            minLength={4}
-            maxLength={60}
-          />
-          <p className="hidden text-red-500 font-bold peer-[:not(:placeholder-shown):invalid]:flex">
-            Insira um nome válido.
-          </p>
-        </label>
-        <label className="flex flex-col gap-2">
-          <p className="font-bold text-lg">Descrição do Produto</p>
-          <textarea
-            className="peer p-2 rounded-lg border border-neutral-700 min-h-[210px] max-h-[360px]"
-            placeholder="O iPhone 15 Pro tem design robusto e leve em titânio aeroespacial. Na parte de trás, vidro..."
-            name={"descriptionasd"}
-            value={data.description}
-            onChange={handleTextChange}
-            required
-            minLength={10}
-          />
-          <p className="hidden text-red-500 font-bold peer-[:not(:placeholder-shown):invalid]:flex">
-            Insira uma descrição válida com no mínimo 10 caracteres.
-          </p>
-        </label>
-        <label className="flex flex-col gap-2">
-          <p className="font-bold text-lg">Preço</p>
-          <div className="flex gap-2 items-center">
-            <span className="text-md font-bold text-zinc-200">R$</span>
-            <input
-              className="peer p-2 rounded-lg w-full border border-neutral-700"
-              type="number"
-              placeholder="7.899,32"
-              min={1}
-              max={10000}
-              name={"price"}
-              value={data.price === 0 ? "" : data.price}
-              onChange={handleTextChange}
-              required
-            />
-          </div>
-        </label>
-        <label className="flex flex-col gap-2">
-          <p className="font-bold text-lg">Frete</p>
-          <div className="flex gap-2 items-center">
-            <span className="text-md font-bold text-zinc-200">R$</span>
-            <input
-              className="p-2 rounded-lg w-full border border-neutral-700"
-              type="number"
-              placeholder="4,32"
-              min={0}
-              max={100}
-              name={"frete"}
-              value={data.frete === 0 ? "" : data.frete}
-              onChange={handleTextChange}
-              required
-            />
-          </div>
-        </label>
-        <label className="flex flex-col gap-2">
-          <p className="font-bold text-lg">Estoque</p>
-          <div className="flex gap-2">
-            <input
-              className="p-2 rounded-lg w-full border border-neutral-700"
-              type="number"
-              placeholder="1"
-              min={1}
-              max={100}
-              name={"quantity"}
-              value={data.quantity === 0 ? "" : data.quantity}
-              onChange={handleTextChange}
-              required
-            />
-          </div>
-        </label>
-        <label className="flex items-center gap-2">
-          <p className="font-bold text-lg">Possui garantia?</p>
-          <input
-            className="p-2 size-4 rounded-lg border border-neutral-700"
-            type="checkbox"
-            checked={data.garantia}
-            name={"garantia"}
-            onChange={handleCheckbox}
-          />
-        </label>
+        <CreateProductForm onAdd={onAdd} />
+      </div>
 
-        <div className="flex flex-col gap-2">
-          <p className="font-bold text-lg">Metódos de Pagamento</p>
-
-          <div className="flex gap-2">
-            {(Object.keys(PaymentMethods) as SupportedPaymentMethods[]).map(
-              (name) => (
-                <label className="flex items-center gap-2">
-                  <input
-                    className="p-2 size-4 rounded-lg border border-neutral-700"
-                    type="checkbox"
-                    checked={data.paymentMethods.includes(name)}
-                    onChange={handlePaymentMethod(name)}
-                  />
-                  <p>{PaymentMethods[name]}</p>
-                </label>
-              )
-            )}
+      {/* <div className="flex flex-col gap-1">
+        {createdProducts.map((product) => (
+          <div>
+            {product.name} - {product.description.slice(0, 10)} -{" "}
+            {numberToPrice(product.price)}
           </div>
-        </div>
+        ))}
+      </div> */}
 
-        <div>
-          <button
-            type="submit"
-            className="bg-emerald-700 hover:bg-emerald-800 focus:bg-emerald-800 p-2 px-4 rounded-xl font-bold"
-          >
-            Publicar produto
-          </button>
-        </div>
+      <div className="overflow-x-auto border-t border-t-gray-500 py-10">
+        <table className="table-auto w-full">
+          <thead>
+            <tr className="flex gap-4">
+              <th className="text-start w-[180px]">Nome</th>
+              <th className="text-start w-[180px]">Descrição</th>
+              <th className="text-start w-[180px]">Preço</th>
+              <th className="text-start w-[180px]">Frete</th>
+              <th className="text-start w-[180px]">Estoque</th>
+              <th className="text-start w-[180px]">Pagamento</th>
+              <th className="text-start w-[180px]">Garantia?</th>
+            </tr>
+          </thead>
+          <tbody>
+            {createdProducts.map((product) => (
+              <tr className="flex gap-4">
+                <td className="w-[180px] overflow-hidden">{product.name}</td>
+                <td className="w-[180px] overflow-hidden">
+                  {product.description}
+                </td>
+                <td className="w-[180px] overflow-hidden">
+                  {numberToPrice(product.price)}
+                </td>
+                <td className="w-[180px] overflow-hidden">
+                  {numberToPrice(product.frete)}
+                </td>
+                <td className="w-[180px] overflow-hidden">
+                  {product.quantity}
+                </td>
+                <td className="w-[180px] overflow-hidden">
+                  {product.paymentMethods.join(", ")}
+                </td>
+                <td className="w-[180px] overflow-hidden">
+                  {product.garantia ? "Sim" : "Não"}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </form>
   );
